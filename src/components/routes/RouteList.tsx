@@ -8,10 +8,10 @@ export default function RouteList() {
         {
             path: "/",
             layout: SimpleLayout,
-            component: () => <Navigate to="/staff-transfer-execute" replace />
+            component: () => <Navigate to="/staff-transfer" replace />
         },
         {
-            path: "/staff-transfer-execute",
+            path: "/staff-transfer",
             layout: FullLayout,
             component: () => <TableComponent />
         }
