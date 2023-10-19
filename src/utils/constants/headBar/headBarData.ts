@@ -14,7 +14,7 @@ function headBarData(selectedOptions: SelectedOptionsTypes): HeadBarTypes[] {
             label: "Position",
             value: selectedOptions?.position ?? "Select a position",
             placeholder: "Search for a position",
-            dataElementId: "EuzOMK1tTNv",
+            dataElementId: "DDDJ2QeiQz8",
             component: "menuItemContainer"
         },
         {
@@ -22,7 +22,7 @@ function headBarData(selectedOptions: SelectedOptionsTypes): HeadBarTypes[] {
             label: "Employment type",
             value: selectedOptions?.employmentType ?? "Select an employment type",
             placeholder: "Search for an employment type",
-            dataElementId: "gXBJIHjcwiH",
+            dataElementId: "XseYNLVUYut",
             component: "menuItemContainer"
         },
         {
@@ -30,7 +30,7 @@ function headBarData(selectedOptions: SelectedOptionsTypes): HeadBarTypes[] {
             label: "Academic Year",
             value: selectedOptions?.academicYear ?? "Select academic year",
             placeholder: "Search for academic year",
-            dataElementId: "iDSrFrrVgmX",
+            dataElementId: "flmSlK0TYGQ",
             component: "menuItemContainer"
         }
     ]
