@@ -85,7 +85,7 @@ function sideBarData(): SideBarItemProps[] {
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Staff-Transfer",
-                    route: "staff-transfer",
+                    route: "staff-transfer?sectionType=staff",
                     pathName: "/staff-transfer"
                 }
             ]
