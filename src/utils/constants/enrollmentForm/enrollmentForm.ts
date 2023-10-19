@@ -4,7 +4,7 @@ import { VariablesTypes } from "../../../types/table/AttributeColumns";
 
 const staticForm = () => {
   return {
-    registeringSchool: {
+/*     registeringSchool: {
       required: true,
       name: "registerschoolstaticform",
       labelName: "Registering School",
@@ -23,7 +23,7 @@ const staticForm = () => {
       header: "Registering School",
       type: VariablesTypes.DataElement,
       value: undefined
-    },
+    }, */
     enrollmentDate: {
       required: true,
       name: "eventdatestaticform",
@@ -48,29 +48,14 @@ const staticForm = () => {
 }
 
 function formFields(enrollmentsData: any[]): FormSectionProps[] {
-  const [enrollmentDetails, studentsProfile, socioEconomicDetails] = enrollmentsData;
+  const [transferForm] = enrollmentsData;
+
   return [
     {
-      section: "Enrollment Details",
-      description: "Details related to the enrollment process",
+      section: "Transfer student",
+      description: "Select the school you want to transfer the student(s) to",
       fields: [
-        staticForm().registeringSchool,
-        ...enrollmentDetails,
-        staticForm().enrollmentDate
-      ]
-    },
-    {
-      section: "Student profile",
-      description: "Student personal details",
-      fields: [
-        ...studentsProfile
-      ]
-    },
-    {
-      section: "Socio-economic details",
-      description: "Details about the student socio-economic status",
-      fields: [
-        ...socioEconomicDetails
+        ...transferForm
       ]
     }
   ];

@@ -8,6 +8,7 @@ import SwitchInput from "./fields/SwitchInput.js";
 import InputArea from "./fields/InputArea.js";
 import { type CustomAttributeProps } from "../../types/table/AttributeColumns.js";
 import { Attribute } from "../../types/generated/models.js";
+import OrgUnitTreeField from "../orgUnitTree/OrgUnitTreeField.js";
 
 interface GenericFieldsProps {
   attribute: CustomAttributeProps
@@ -62,6 +63,9 @@ function GenericFields({ attribute, disabled, valueType }: GenericFieldsProps) {
 
     case Attribute.valueType.LIST as unknown as CustomAttributeProps["valueType"]:
       return <SingleSelectField {...attribute} disabled={disabled || attribute.disabled} />;
+
+    case Attribute.valueType.ORGANISATION_UNIT as unknown as CustomAttributeProps["valueType"]:
+        return <OrgUnitTreeField {...attribute} />;
 
     default:
       return <span>ValueType not mapped</span>;

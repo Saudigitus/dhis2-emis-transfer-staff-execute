@@ -16,9 +16,16 @@ interface performance {
 
 interface registration {
     academicYear: string
-    grade: string
+    position: string
     programStage: string
-    section: string
+    employmentType: string
+}
+
+interface transfer {
+    status: string
+    programStage: string
+    destinySchool: string
+    originSchool: string
 }
 
 interface dataStoreRecord {
@@ -29,6 +36,7 @@ interface dataStoreRecord {
     program: string
     registration: registration
     ["socio-economics"]: programStages
+    transfer: transfer
 
 }
 

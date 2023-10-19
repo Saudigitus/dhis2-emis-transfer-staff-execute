@@ -6,6 +6,10 @@ import { RowCell, RowTable } from '../components';
 import { getDisplayName } from '../../../utils/table/rows/getDisplayNameByOption';
 import { type CustomAttributeProps } from '../../../types/table/AttributeColumns';
 import { useConfig } from '@dhis2/app-runtime';
+import { Checkbox } from "@dhis2/ui"
+import { useRecoilState } from 'recoil';
+import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
+import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
 
 interface RenderHeaderProps {
     rowsData: any[]
@@ -39,7 +43,18 @@ const useStyles = makeStyles((theme: Theme) =>
 function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactElement {
     const classes = useStyles()
     const { baseUrl } = useConfig()
+    const [selected, setSelected] = useRecoilState(RowSelectionState);
 
+    const openTeiInCaptureApp = (event: object) => {
+        const { trackedEntity, enrollment, orgUnit, program } = event;
+        console.log(event, "ds");
+        window.open(`https://emis.dhis2.org/dev/dhis-web-capture/index.html#/enrollment?enrollmentId=${enrollment}&orgUnitId=${orgUnit}&programId=${program}&teiId=${trackedEntity}`, '_blank')
+    }
+    const onToggle = (rawRowData: object) => {
+        setSelected({ ...selected, selectedRows: checkIsRowSelected(rawRowData, selected), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
+    }
+
+    console.log("selected", selected)
     if (rowsData.length === 0) {
         return (
             <RowTable
@@ -58,27 +73,38 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
     return (
         <React.Fragment>
             {
-                rowsData.map((row, index) => {
-                    const cells = headerData?.filter(x => x.visible)?.map(column => (
+                rowsData.map((row, index) => (
+                    <RowTable
+                        key={index}
+                        onClick={() => { openTeiInCaptureApp(selected.rows[index]); }}
+                        className={classNames(classes.row, classes.dataRow)}
+                    >
                         <RowCell
-                            key={column.id}
                             className={classNames(classes.cell, classes.bodyCell)}
-                            onClick={() => { window.open(`${baseUrl}/dhis-web-capture/index.html#/enrollment?enrollmentId=${row?.enrollmentId}&orgUnitId=${row?.orgUnitId}&programId=${row?.programId}&teiId=${row?.trackedEntity}`, "_blank") }}
                         >
-                            <div>
-                                {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] })}
+                            <div onClick={(event) => { event.stopPropagation(); }}>
+                                <Checkbox
+                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter(element => element.trackedEntity === row.trackedEntity).length > 0}
+                                    name="Ex"
+                                    onChange={() => { onToggle(selected.rows[index]); }}
+                                    value="checked"
+                                />
                             </div>
                         </RowCell>
-                    ));
-                    return (
-                        <RowTable
-                            key={index}
-                            className={classNames(classes.row, classes.dataRow)}
-                        >
-                            {cells}
-                        </RowTable>
-                    );
-                })
+                        {
+                            headerData?.filter(x => x.visible)?.map(column => (
+                                <RowCell
+                                    key={column.id}
+                                    className={classNames(classes.cell, classes.bodyCell)}
+                                >
+                                    <div>
+                                        {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] }) || "---"}
+                                    </div>
+                                </RowCell>
+                            ))
+                        }
+                    </RowTable>
+                ))
             }
         </React.Fragment>
     )
