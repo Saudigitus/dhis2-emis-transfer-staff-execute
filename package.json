@@ -1,16 +1,16 @@
 {
   "name": "semis-staff-transfer-execute",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "description": "",
   "license": "BSD-3-Clause",
   "author": {
-    "name": "Hisp Mozambique (Saudigitus) & Hisp Uganda",
+    "name": "Hisp Mozambique (Saudigitus)",
     "email": "info@saudigitus.org"
   },
   "private": true,
   "scripts": {
     "build": "d2-app-scripts build",
-    "start": "d2-app-scripts start",
+    "start": "d2-app-scripts start --proxy https://emiseswatini.dev.hispuganda.org/emiseswatini",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy"
   },

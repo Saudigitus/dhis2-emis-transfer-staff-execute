@@ -48,13 +48,12 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
     const openTeiInCaptureApp = (event: object) => {
         const { trackedEntity, enrollment, orgUnit, program } = event;
         console.log(event, "ds");
-        window.open(`https://emis.dhis2.org/dev/dhis-web-capture/index.html#/enrollment?enrollmentId=${enrollment}&orgUnitId=${orgUnit}&programId=${program}&teiId=${trackedEntity}`, '_blank')
+        window.open(`${baseUrl}/dhis-web-capture/index.html#/enrollment?enrollmentId=${enrollment}&orgUnitId=${orgUnit}&programId=${program}&teiId=${trackedEntity}`, '_blank')
     }
     const onToggle = (rawRowData: object) => {
         setSelected({ ...selected, selectedRows: checkIsRowSelected(rawRowData, selected), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
     }
 
-    console.log("selected", selected)
     if (rowsData.length === 0) {
         return (
             <RowTable
