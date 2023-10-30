@@ -31,7 +31,8 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   const { getDataStoreData } = getSelectedKey();
   const { transferConst } = useTransferConst()
   const [initialValues] = useState<object>({
-    [getDataStoreData?.transfer?.destinySchool]: orgUnit,
+    [getDataStoreData?.transfer?.originSchool]: orgUnit,
+    [getDataStoreData?.transfer?.status]: transferConst("pending") as string,
     eventdatestaticform: format(new Date(), "yyyy-MM-dd")
   })
 
@@ -48,7 +49,7 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   useEffect(() => { setClicked(false) }, [])
 
   const organizeDataValues = (data: any) => {
-    const response = [{ dataElement: getDataStoreData?.transfer?.status, value: transferConst("pending") as string }]
+    const response: any[] = []
     Object.keys(data).forEach((x) => {
       if (x !== "eventdatestaticform") {
           response.push({ dataElement: x, value: data[x] })
