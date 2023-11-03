@@ -1,6 +1,7 @@
+import { type dataStoreRecord } from "../../../schema/dataStoreSchema"
 import { type SelectedOptionsTypes, type HeadBarTypes } from "../../../types/headBar/HeadBarTypes"
 
-function headBarData(selectedOptions: SelectedOptionsTypes): HeadBarTypes[] {
+function headBarData(selectedOptions: SelectedOptionsTypes, dataStoreData: dataStoreRecord): HeadBarTypes[] {
     return [
         {
             id: "c540ac7c",
@@ -14,7 +15,7 @@ function headBarData(selectedOptions: SelectedOptionsTypes): HeadBarTypes[] {
             label: "Position",
             value: selectedOptions?.position ?? "Select a position",
             placeholder: "Search for a position",
-            dataElementId: "EuzOMK1tTNv",
+            dataElementId: dataStoreData?.registration?.position ?? "",
             component: "menuItemContainer"
         },
         {
@@ -22,7 +23,7 @@ function headBarData(selectedOptions: SelectedOptionsTypes): HeadBarTypes[] {
             label: "Employment type",
             value: selectedOptions?.employmentType ?? "Select an employment type",
             placeholder: "Search for an employment type",
-            dataElementId: "gXBJIHjcwiH",
+            dataElementId: dataStoreData?.registration?.employmentType ?? "",
             component: "menuItemContainer"
         },
         {
@@ -30,7 +31,7 @@ function headBarData(selectedOptions: SelectedOptionsTypes): HeadBarTypes[] {
             label: "Academic Year",
             value: selectedOptions?.academicYear ?? "Select academic year",
             placeholder: "Search for academic year",
-            dataElementId: "iDSrFrrVgmX",
+            dataElementId: dataStoreData?.registration?.academicYear ?? "",
             component: "menuItemContainer"
         }
     ]

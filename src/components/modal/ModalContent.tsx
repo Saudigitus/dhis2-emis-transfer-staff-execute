@@ -5,13 +5,14 @@ import { Form } from "react-final-form";
 import { formFields } from "../../utils/constants/enrollmentForm/enrollmentForm";
 import useGetEnrollmentForm from "../../hooks/form/useGetEnrollmentForm";
 import GroupForm from "../form/GroupForm";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useParams } from "../../hooks/commons/useQueryParams";
 import { format } from "date-fns";
 import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
 import { usePostEvent } from "../../hooks/events/useCreateEvents";
-import { DataStoreState } from "../../schema/dataStoreSchema";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
+import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
+import { useTransferConst } from "../../utils/constants/transferOptions/statusOptions";
 interface ContentProps {
   setOpen: (value: boolean) => void
 }
@@ -27,8 +28,11 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   const [clickedButton, setClickedButton] = useState<string>("");
   const [selected] = useRecoilState(RowSelectionState);
   const { loadUpdateEvent, updateEvent, data } = usePostEvent();
-  const transferDataStore = useRecoilValue(DataStoreState)?.transfer
+  const { getDataStoreData } = getSelectedKey();
+  const { transferConst } = useTransferConst()
   const [initialValues] = useState<object>({
+    [getDataStoreData?.transfer?.originSchool]: orgUnit,
+    [getDataStoreData?.transfer?.status]: transferConst("pending") as string,
     eventdatestaticform: format(new Date(), "yyyy-MM-dd")
   })
 
@@ -45,17 +49,17 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   useEffect(() => { setClicked(false) }, [])
 
   const organizeDataValues = (data: any) => {
-      const response = [{ "dataElement": transferDataStore?.status, "value": "Pending" }]
+    const response: any[] = []
     Object.keys(data).forEach((x) => {
-        if (x !== "eventdatestaticform") {
-            response.push({ "dataElement": x, "value": data[x] })
-        }
-  })
-return response;
-}
+      if (x !== "eventdatestaticform") {
+          response.push({ dataElement: x, value: data[x] })
+      }
+    })
+    return response;
+  }
+
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
-      console.log("allFields", allFields)
       if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       const events = []
@@ -63,18 +67,16 @@ return response;
         events.push(
           {
             enrollment: event?.enrollment,
-          occurredAt: "2023-08-23",
-          orgUnit: event?.orgUnit,
-          program: event?.program,
-          programStage: transferDataStore?.programStage,
-          scheduledAt: "2023-08-23",
-          status: "ACTIVE",
-          trackedEntityInstance: event?.trackedEntity,
-          dataValues: organizeDataValues(values)
+            occurredAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+            orgUnit: event?.orgUnit,
+            program: event?.program,
+            programStage: getDataStoreData?.transfer?.programStage,
+            scheduledAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+            status: "ACTIVE",
+            trackedEntityInstance: event?.trackedEntity,
+            dataValues: organizeDataValues(values)
           })
       }
-      console.log("events", events)
-      console.log("allFields", organizeDataValues(values))
       void updateEvent({ data: { events } })
     }
   }
@@ -84,7 +86,7 @@ return response;
     { id: "saveandcontinue", type: "submit", label: "Perform transfer", primary: true, disabled: loadUpdateEvent, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
   ];
 
-  if (enrollmentsData.length < 1) {
+  if (enrollmentsData?.length < 1) {
     return (
       <CenteredContent>
         <CircularLoader />
@@ -95,7 +97,7 @@ return response;
   function onChange(e: any): void {
     const sections = enrollmentsData;
     for (const [key, value] of Object.entries(e)) {
-      for (let i = 0; i < sections.length; i++) {
+      for (let i = 0; i < sections?.length; i++) {
         if (sections[i].find((element: any) => element.id === key) !== null && sections[i].find((element: any) => element.id === key) !== undefined) {
           // Sending onChanging form value to variables object
           sections[i].find((element: any) => element.id === key).value = value
@@ -104,7 +106,6 @@ return response;
     }
     setFieldsWitValues(sections)
     setValues(e)
-  console.log("values", e)
 }
 
   return (

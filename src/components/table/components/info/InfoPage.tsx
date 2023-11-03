@@ -10,7 +10,7 @@ export default function InfoPage() {
                 <span>Follow the instructions to proceed:</span>
                 <ul>
                     <li className={styles.paperOtherText}>Select the  Organization unit you want to view data</li>
-                    <li className={styles.paperOtherText}>Use global filters(Class, Grade and Academic Year)</li>
+                    <li className={styles.paperOtherText}>Use global filters(Position, Employment Type and Academic Year)</li>
                     <li className={styles.paperOtherText}>Select the teachers to transfer</li>
                     <li className={styles.paperOtherText}>Execute the transfer</li>
                 </ul>
