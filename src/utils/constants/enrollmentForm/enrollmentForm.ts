@@ -52,8 +52,8 @@ function formFields(enrollmentsData: any[]): FormSectionProps[] {
 
   return [
     {
-      section: "Transfer student",
-      description: "Select the school you want to transfer the student(s) to",
+      section: "Transfer staff",
+      description: "Select the school you want to transfer staff to:",
       fields: [
         ...transferForm
       ]

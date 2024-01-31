@@ -23,7 +23,7 @@ function EnrollmentActionsButtons() {
         </Tooltip>
       </ButtonStrip>
 
-      {open && <ModalComponent title="Students Transfer" open={open} setOpen={setOpen}><ModalContentComponent setOpen={setOpen} /></ModalComponent>}
+      {open && <ModalComponent title="Staff Transfer" open={open} setOpen={setOpen}><ModalContentComponent setOpen={setOpen} /></ModalComponent>}
     </div>
   )
 }
